@@ -45,8 +45,9 @@ app.get("/verify-payment/:payment_id", async (req, res) => {
       `https://developers.flouci.com/api/verify_payment/${paymentId}`,
       {
         headers: {
-          Authorization: `Bearer ${APP_SECRET}`, // Token privé
-          apppublic: APP_TOKEN, // ✅ Token public
+          Authorization: `Bearer ${APP_SECRET}`, // ✅ Token privé (classique)
+          apppublic: APP_TOKEN, // ✅ Token public (exigé)
+          appsecret: APP_SECRET, // ✅ Token privé en tant que header aussi
         },
       }
     );
