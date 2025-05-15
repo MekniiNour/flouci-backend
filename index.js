@@ -31,11 +31,35 @@ app.post("/create-payment", async (req, res) => {
     );
 
     res.status(200).json(response.data);
-    } catch (error) {
+  } catch (error) {
     console.error("Erreur Flouci:", error?.response?.data || error.message);
     res.status(500).json({ error: "Erreur lors de la création du paiement" });
   }
+});
 
+app.get("/verify-payment/:payment_id", async (req, res) => {
+  const paymentId = req.params.payment_id;
+
+  try {
+    const response = await axios.get(
+      `https://developers.flouci.com/api/verify_payment/${paymentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${APP_SECRET}`, // jeton privé requis par Flouci
+        },
+      }
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error(
+      "Erreur lors de la vérification du paiement:",
+      error?.response?.data || error.message
+    );
+    res
+      .status(500)
+      .json({ error: "Erreur lors de la vérification du paiement" });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
