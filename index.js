@@ -45,14 +45,15 @@ app.get("/verify-payment/:payment_id", async (req, res) => {
       `https://developers.flouci.com/api/verify_payment/${paymentId}`,
       {
         headers: {
-          Authorization: `Bearer ${APP_SECRET}`, // jeton privé requis
+          Authorization: `Bearer ${APP_SECRET}`, // Token privé
+          apppublic: APP_TOKEN, // ✅ Token public
         },
       }
     );
 
     res.status(200).json(response.data);
   } catch (error) {
-    console.error("Erreur complète :", error?.response?.data || error.message); // 👈 ici
+    console.error("Erreur complète :", error?.response?.data || error.message);
     res
       .status(500)
       .json({ error: "Erreur lors de la vérification du paiement" });
